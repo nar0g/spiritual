@@ -1,0 +1,553 @@
+#############################
+#       Spiritual Bot       #
+#     by: Victim@USEast     #
+#############################
+
+ - Many thanks to Rob@USEast for his help on many features currently implemented into the bot. Also, his libbnet.dll which serves as the primary connection tool for Spiritual.
+ - Also, many thanks to niNe@USEast for his help on many functions incorporated into the database system, and for his ideas and innovations with the GUI.
+  	I recommend you also try out their bots as well: Emerge Bot (Rob's), and Slacker (niNe's)
+ - And, thank you to the beta testers as well for using my bot and reporting bugs that may not have otherwise been found.
+
+
+#############################
+#         CHANGE LOG        #
+#############################
+
+Build 142
+
+ - CHANGES
+   - Changed the main menu icon (Chrome style)
+   - Fixed a bug which didn't properly append whisper prefix to long split messages (Thanks Goran)
+   - Fixed a bug which attempted to send data to a non-existent shared queue socket
+   - Added an error message when bnet declines to send profile keys to your client when logging in (Thanks Darin)
+   - Added currently connected usernames to the queuestatus command (Thanks cHip)
+
+
+Build 141
+
+ - CHANGES
+   - Fixed a bug in the setrank command (Thanks Goran)
+   - Added command /plugincommands to list only commands added from plugins
+   - Updated IP addresses for all realms
+     - This fixes double banning when using shared queue (In the future it's recommended you always use the DNS when using shared queue in case IPs change again)
+
+
+Build 139 - BETA
+
+ - CHANGES
+   - Re-wrote the local queue to fix a long standing drop issue after ~150 continuous bans. (Testing yielded over 1500 without dropping - I stopped it manually)
+   - Modified Smartqueue to remove *all* queued ban users if they leave the channel, regardless of the ban type (i.e. Loadban)
+   - Fixed squelching to detect and remove queued usernames who are set to be squelched but who gain flags 0x20 at the same time, and ditto for unsquelch as well
+   - Improved automatic filtering when a load is detected, filtered usernames will now appear in red
+   - Replaced the old filtermode system with the blacklist which is an automatic filtering mechanism
+        - While a load is detected and a user who isn't supposed to be blacklisted gets flagged (their name is in red), simply safeadd them to avoid the ban and to remove their blacklist status
+   - Created more strict rules for the automatic disabling of load detection to keep filtering on in the event no operator is banning a massload or flood
+   - Fixed a bug which didn't display join messages when Join/Leaves are manually enabled during load detection
+   - Modified the join/leaves disable toggle to ask the user whether or not to temporarily disable join/leaves during load detection
+   - Changed ban messages: "Ignore" is now "Ipban" and "Lockout" is now "Evasion"
+   - Added in automatic queue for chat messages (typed or copy pasta'd on the UI) longer than 255 characters (Thanks cHip)
+   - Modified whisper commands - Spiritual will now always respond back in a whisper when whispered a command (The whisper commands setting will always whisper a command back if said aloud) (Thanks cHip)
+   - Optimized a bunch of old code - Way too much to list...
+   - Renamed plugin function "pCallCommand" to "pDispatchCommand" and renamed "pCallMessage" to "pDispatchMessage"
+   - Added code to set focus back to textbox when double clicking a username in the listview
+   - An error message is now displayed for users with flag I who try to execute a command without sufficient access (Thanks cHip)
+   - Designate command will now say the designated user aloud (Thanks cHip)
+   - When a user is safelisted, the queue is now checked and pending kick/bans and blacklist are removed
+   - Fixed a duplicate collection element bug in the shared queue server
+   - Added an "IP" button in the config under the queue server options to obtain your external ip address (This info is pulled directly from http://www.devacy.com/ip.php)
+        - Note: I do not store or transmit your ip address. This feature is completely optional and you may choose to manually obtain your external IP by visiting various services on the web.
+   - Handled socket 10048 issue with the queue server
+   - Handled socket 10049 issue with the queue server
+   - Fixed a reconnect bug with the queue server
+   - Finished adding more error proofing to the shared queue code and rewrote a bunch of its existing code
+   - Added plugin function pEnqueueBan to allow plugins to take advantage of shared queue
+   - Fixed a realm compatibility issue with chat encryption, so it is now re-enabled (Thanks divine)
+   - Added a case sensitive password to the queue server for added security.  In addition, in order to auto-discover the queue server IP, you MUST be a channel operator.
+   - Added a right-click option to the channel list to connect to that user's Spiritual Queue Service (SQS)
+   - Added command connect to connect to a username's SQS
+   - Added command sharequeue to turn queue sharing on/off
+   - Fixed object variable error in 0x77 cookie lookup (Thanks Enkious)
+   - Fixed a channel count error which occurs during the rapid joining and leaving of several usernames at once
+   - Modified message splitting to a lower threshold due to bnet changing their maximum character limit for chat messages
+   - Fixed realm detection for the USEast realm (updated to new IP addresses)
+
+
+Build 136 - BETA
+
+ - NOTES
+   - THIS IS A BETA BUILD OF SPIRITUAL BOT. BE AWARE THAT THERE ARE MOST LIKELY BUGS IN THIS BUILD AS WELL AS SOME UNFINISHED FEATURES!
+
+ - CHANGES
+   - Fixed a type mismatch error when a user with pound symbol and a realm joins the channel
+   - Patched a bug which deleted aliases created via plugin (Thanks cHip)
+   - Fixed a bug in BNCS packet 0x77 (Clan invitations) (Thanks Goran and Enkious)
+   - Fixed a bug which allowed any database user regardless of flags to bypass filtering (Thanks Skye)
+   - Modified BNLS handler code to allow Warcraft III to correctly connect (workaround for a bug in JBLS) (Thanks Zhuinden)
+   - Fixed a bug in load detection, safelisted users will no longer be subject to load checks
+   - Database read/write was re-written and new .db files are used (Thanks niNe)
+   - Database now supports the time and date a username was added as well as a special note. (Thanks niNe)
+   - Custom shitlist messages are now supported (the new special note will be displayed; however if no special note is given, the default will revert to "Bitchin!")
+   - Added code to ignore WAR3 packet 0x63 (Thanks cHip)
+   - Added command "unsquelch" to handle asterisk detection on Diablo II (Thanks Skye)
+   - Fixed an information update bug in the profile manager form
+   - Modified the news retrieval URL (Switched hosting providers/reorganized subdomains)
+
+
+Build 135 - ALPHA
+ 
+ - NOTES
+   - THIS IS AN ALPHA BUILD OF SPIRITUAL BOT. BE AWARE THAT THERE ARE MOST LIKELY BUGS IN THIS BUILD AS WELL AS SOME UNFINISHED FEATURES!
+
+ - CHANGES
+   - Made significant changes to the GUI, for profile specific menus right click on a profile tab, for global menus right click the cog in the upper right corner
+   - Modified /clan command to only work in clan channels (Thanks Dave)
+   - Changed command alias to addalias, and command delete to removealias for better name conformity (Thanks Dave)
+   - Changed the cdkey check to only execute on cdkey products
+   - Made the main form the owner form so that all other forms will take the foreground
+   - Modified the main RTB to reset to the bottom when the local user sends text to bnet (Thanks Dave)
+   - Changed the startup position of all other forms to the center of the main window
+   - Added a safeguard check in safeunban, now whenever safeunban is enabled after being disabled it will check the banned list for Friend (Flag F) matches and unban them automatically
+   - Fixed runtime 438 bug trying to call collection items from the queue (Thanks Anti-Liberal)
+   - Fixed unbanlast command to return a message if nobody has been banned (Thanks Roamer)
+   - Removed "Authorization passed" message since auth hasn't been used since pre-build 50
+   - Completely revamped the automatic filtering system - The "classic" filtering is still in place, but a new "load detection" system has been added
+   - Fixed command squelch to add asterisk when using Diablo II clients (Thanks SkYe)
+   - Added queue sharing (in early-BETA phase so expect the unexpected)
+
+
+Build 131 - BETA
+
+ - CHANGES
+   - Fixed a bug with d2 whispers (Thanks TeArZ)
+   - Added a new variable to chat events for plugins - a boolean value will tell the plugin if Spiritual's internal filtering decided to suppress the messages
+     - This will break existing plugins...I will tackle this issue for future updates later
+   - Fixed another bug which caused the bot's username to become idle in the channel list
+   - Fixed some internal constants and optimized some functions (Nothing too exciting for whoever is reading this...)
+   - Changed the command split back to "; " - received too many complaints about it changing
+   - Added an extra 0 when displaying flags on tooltips
+   - Added multiple user selection on the channel list, friends list, and clan list
+   - Properly grayed out items in the listview right click menu depending on flags, username status, etc.
+   - Added error message if a user tries to issue operator commands without operator status
+   - Added command unbanlast (Flag G) which will unban the last username banned
+   - Added command dbstats (Flag I) which returns statistical information on the bot database (Thanks Darin)
+   - Modified all database lookup commands (specifically numeration returned on lookups as well as slipped in group names if applicable) and optimized their code
+   - Modified queue (on/off) command to require flag M, instead of flag S due to possible abuse
+   - Changed command remgroup to removegroup to keep command name conformity (Use an alias to rename it back to remgroup)
+   - Added command renamegroup (Flag M) which will rename an existing group's name (Thanks Dave)
+   - Added command wildcardadd (Flag D) which will add/modify/remove the specified username(s) in the db from the channel list.  Ex: "/wildcardadd *[L] F" -- This would safelist any user in the channel whose name ends in "[L]"
+   - Added command wildcardgroup (Flag D) which will group specified username(s) from the channel list.  Ex: "/wildcardgroup *[L] Friend" -- This would group any user to the "Friend" group (which I defined as flag F via "/addgroup Friend F") in the channel whose name ends in "[L]"
+   - Fixed a bug (RTE 91) in Profile Manager related to deleting profiles with files open from the folder (Forgot who reported from BnetDev, but Thanks)
+   - Fixed a bug in proxy support (Thanks Dave)
+   - Fixed a major bug with botmail returning bad messages
+   - Modified the threshold for flood detection on EID_TALK and EID_EMOTE (hopefully it reduces false positives)
+   - Optimized database functions which hadn't been touched in years (probably no noticable difference to end-user)
+   - Fixed a long standing bug in the main RTB's - auto-scroll in RTB's will be disabled when the scrollbar is not at the bottom (In simple terms it allows you to scroll up and copy some text in the channel chat without the scrollbar resetting to the bottom)
+
+
+Build 126
+
+ -CHANGES
+   - Fixed a bug with d2 whispers (Thanks TeArZ)
+   - Added a new variable to chat events for plugins - a boolean value will tell the plugin if Spiritual's internal filtering decided to suppress the messages
+   - Fixed a bug which caused the bot's username to become idle in the channel list
+   - Fixed some internal constants
+   - Changed the command split back to "; " - received too many complaints about it changing
+
+
+Build 125
+
+ -CHANGES
+   - libbnet.dll has been upgraded to revision 281
+   - Eliminated App Major and Minor revisions and changed official name to "Spiritual Bot"
+   - Updated Diablo 2 version byte to 0x0D
+   - Updated Diablo 2 statstring to reflect Act changes (Thanks teLe)
+   - Modified multiple commands (Multiple commands will no longer be split with "; ", rather they will be split by "> " - i.e. "?ban username> say hello> whoami")
+   - Removed orange exclaimation point for text added to the main RTB via plugin
+   - Bot will now append asterisk on d2 for commands /whois /where and /whereis (Thanks s3v3n)
+   - Added new keyboard shortcuts (Thanks LinKs@USWest)
+	- F1 = Connect profile
+	- F2 = Disconnect profile
+	- F3 = Reconnect profile
+	- F5 = Connect all
+	- F6 = Disconnect all
+	- F7 = Reconnect all
+   - Modified floodban message config variable - now ALL ban/kick messages will be ignored during a flood if specified
+   - Added a setting to turn off smartqueue (which will ban users regardless of whether they leave the channel) (NOTE: Attempting to remove double bans will always be left on, unless people object) (Thanks oFF@USEast)
+   - Added command smartqueue (Flag S)
+   - Fixed a bug in EID_TALK and EID_EMOTE - Spiritual will now identify invisible users
+   - D2 realm character is now auto-selected if the bot unintentionally reconnects (Thanks ricer1@BnetDev)
+   - Added 2 new constants for font size and font name for the main RTBs (editable by plugin) (Thanks divine.de)
+   - Chat encryption has been temporarily removed
+   - Fixed a bug with the "In Realm" message displaying on the incorrect profile (Thanks divine.de)
+   - Fixed a bug with the "In Realm" message when switching profile from one in realm to another and back
+
+
+Version 1.3 (Build: 122)
+
+ -CHANGES
+   - Moved the About menu into the Help menu item (Thanks ricer1@BnetDev)
+   - Updated the mailqueue command to require flag M
+   - Handled a race condition bug in EID_Leave chat event (Thanks TizzyT)
+   - Fixed a bug where rename profile would not change the profile name in the quick launch menu
+   - Handled a strange bug in DataArrival (Thanks xd@BnetDev)
+   - Added profile option to friends and clan popup menus (Thanks Colby)
+   - Fixed a bug with right click listview in The Void (Thanks Dean@FL)
+   - Fixed a bug which would not use BNLS when connecting to bnet via proxy (Thanks cHiLLiN@BnetDev)
+   - Fixed a bug with bot news
+   - Improved error handling in certain areas...slowly updating all areas...
+
+
+Version 1.3 (Build: 121)
+
+ -CHANGES
+   - Fixed a bug which did not add new profiles to the quick launch (Thanks Henry)
+   - Fixed a bug which did not add cloned profiles to the quick launch
+   - Fixed a bug which did not delete quick launch items when deleting profiles
+   - Fixed a minor cosmetic bug with clone profile
+   - Updated hardcoded version bytes for d2 and war3 b/c I forgot to before (Thanks Henry)
+
+
+Version 1.3 (Build: 120)
+
+ -CHANGES
+   - Fixed a bug related to proxy support when using a DNS (Thanks TizzyT)
+   - Fixed a bug with the Quick Launch items when loading profiles from the Profile Manager
+   - Fixed a bug which was improperly reporting promoted names from the dop command (Thanks Henry)
+   - Fixed a bug which didn't clear the channel list when disconnected if the main tab was selected on Friends or Clan
+   - Fixed a bug related to auto-unsquelch which did not append asterisk for non-d2 users when using a d2 client (Thanks Henry)
+   - Added command reply which will send a whisper to the last person who whispered the bot (Thanks Rob)
+   - Added command rewhisper which will send a whisper to the last person the bot whispered (Thanks Rob)
+   - Changed flag update notifications to optional via a setting in the configuration (Thanks Henry)
+   - Modified dop command to avoid a rare bug
+   - Modified flood detect to ignore flood behavior as a result of the dop command
+
+
+Version 1.3 (Build: 119 Beta)
+
+ -CHANGES
+   - Changed a few functions in plugins making old ones incompatible again...woohoo
+   - Fixed a bug related to multiple command calls (Thanks Henry@FL)
+   - Fixed a bug with the ?trigger command's response when whispercommands is enabled (Thanks Darin)
+   - Added FilterMode 3 which will completely lock the main RTB
+   - Replaced the old method of how profile folders were retrieved
+   - Improved auto-removal of floodbanning users from the queue
+   - Forgot to mention the new Spiritual graphic done by Dan for build 118+
+   - Fixed a bug in flood filters by disabling flooddetection upon disconnect
+   - Added option to disable a flood's ban messages
+   - Added clear all chat/whisper options (Thanks TonyRodriguez@BnetDev)
+   - Fixed a bug that was not allowing proper deletion of profiles via Profile Manager
+   - Added feature to rename profiles via the Profile Manager or by right clicking the profile on the main form
+   - Added feature to hide profiles by right clicking the profile's tab on the main form
+   - Added feature to clone profiles via the Profile Manager
+   - Added Quick Launch for loading profiles from the main menu
+   - Created a new menu item "Profiles" with subitems Configuration, Quick Launch, and Hidden Profiles
+
+
+Version 1.2 (Build: 118)
+
+ -CHANGES
+   - Fixed a bug related to ping type in configuration form
+   - Added response 0x07 into packet 0x77 (Thanks WaRLoRd)
+   - Moved global plugins into the global Config.ini under [Plugins]
+   - Updated hardcoded version bytes for SC/BW/W3/W3XP
+   - Added in user groups!
+   - Added 7 new commands: addgroup, remgroup, groups, groupinfo, findbygroup, group, ungroup
+   - Fixed various tiny bugs and optimized some code
+   - Fixed a small listview resize bug in the filter form
+   - Removed the outdated internal warden handler
+
+
+Version 1.2 (Build: 117) - BETA
+
+ -CHANGES
+   - Fixed a minor grammatical error in the whois command
+   - Fixed several bugs which did not append an asterisk for d2 clients
+   - Added wildcard capabilities for flag F (safelist) (Thanks Adema)
+   - Added feature to append an asterisk to whisper commands (Thanks Simile@USEast and Goran)
+   - Fixed an exploit that allowed a user with any flag to issue commands to bnet
+   - Added a global trigger option for remote commands (dynamic) and local commands ("//") (Thanks oMni)
+   - Added Socks 4 and Socks 5 proxy support (Thanks FiReWaLL)
+
+
+Version 1.2 (Build: 116)
+
+ -CHANGES
+   - Fixed a bug where ignore email registration did not work on Warcraft III clients (Thanks QuickTrigga@BnetDev)
+   - Fixed a bug where clan invites were reversed, making ignore actually allow, and allow actually ignore (Thanks QuickTrigga@BnetDev)
+   - Enabled hyperlink underlining when URL detection is enabled. This feature does not act retroactively.
+   - Fixed a threading issue with the Warcraft III invite command
+   - Fixed an bug which displayed the hammertime message twice on Warcraft III and blizzard flags
+
+
+Version 1.2 (Build: 115)
+
+ -CHANGES
+   - Fixed a bug that allowed text to be sent to bnet before fully connected causing an ipban
+   - Added tooltip and username coloring for the friends list tab
+   - Fixed a bug with the banned database on diablo 2 clients
+   - Improved error handling in several functions
+   - Fixed a bug where the improper channel text was displayed for the selected profile (Thanks Goran)
+   - Added in the removal of a clan member from the internal collection when they are removed from a clan (Not sure if it works completely, don't have a clan to test it)
+
+
+Version 1.2 (Build: 113) - Quick release
+
+ -CHANGES
+   - Changed the default tab in the configuration form
+
+
+Version 1.2 (Build: 112)
+
+ -CHANGES
+   - Fixed a bug related to the listview users through EID_Leave when flood detection is enabled (Thanks Adema)
+   - Fixed a bug that improperly banned users when a flood was detected
+   - Fixed a bug that displayed debug info for packet 0x69 (Thanks Goran)
+   - Optimized coding in many areas of the bot
+   - Added configuration secret to override the socket's port
+   - Added configuration secret to override the internal 0x0F block
+   - Added configuration secret to override the flood detection reset interval
+   - Added configuration secret to override the filtermode 1 delay
+
+
+Version 1.2 (Build: 110)
+
+ -CHANGES
+   - Fixed a significant bug when handling 2 or more commands
+   - Added some more error handling for when the bot adds and removes users from the listview
+   - Added ChangeLog to the help menu item
+
+
+Version 1.2 (Build: 109) - Quick release
+
+ -CHANGES
+   - Changed the way prepended characters are handled on usernames
+
+
+Version 1.2 (Build: 108)
+
+ -CHANGES
+   - Fixed some internal coding organization
+   - Removed a parameter for plugins in the registercommand function
+   - Added command plugins which returns all plugins loaded into memory
+   - Added command plugininfo which returns information for the specified plugin
+   - Added command squelch to remotely squelch users
+   - Added command email which serves as an alias to the bnet command /mail (because /mail in Spiritual is for botmail)
+   - Cleaned up some code in the commands class and added additional error handling
+   - Added ipban checking in EID_FLAGS
+   - Improved the way botmail is queued for distribution
+   - Changed the mailqueue command to list all mail messages rather than the count
+   - Added clear chat/whisper window to the menu items
+   - Lookup command has been changed to Whois (doubles up with the bnet command /whois when executed locally)
+   - Added bot news
+   - Added optional URL detection (Needs extensive testing) (Thanks Rob)
+   - Increased flood detect protection to 2 minutes
+
+
+Version 1.2 (Build: 107)
+
+ -CHANGES
+   - Added home channel and product to the profile loader form (Thanks Rob)
+   - Added an option to enable/disable the bot queue (Thanks Rob)
+   - Fixed a bug in the configuration where entries wouldn't switch values when selecting different profiles
+   - Fixed a bug which improperly displayed bnet administrators (0x08) in the listview
+   - Fixed a bug in the filters form where the filter type box was locked
+   - Forms are now centered when loaded
+   - Changed a couple of default colors for blizzard representatives
+
+
+Version 1.2 (Build: 105)
+
+ -CHANGES
+   - Fixed a bug with whisper windows (Thanks Rob)
+   - Changed initial channel join for legacy clients
+   - *Released new partial readme file
+
+
+Version 1.2 (Build: 104)
+
+ -CHANGES
+   - Attempted to fix a profiling bug...we'll see... (Thanks Goran)
+   - Added pCallCommand() function for plugins (Thanks Rob)
+   - Added pBotVersion() function for plugins (Thanks Rob)
+   - Added IgnoreEmailRegistration option to config (Thanks d.EviLz@BnetDev/Vengeance@FL)
+   - Fixed a bug which sent the wrong product byte for W3XP using BNLS (Thanks s3v3n)
+   - Added multi-line pasting (Thanks Rob/s3v3n)
+   - Added right-click popup menu to the profile tabstrip
+
+
+Version 1.2 (Build: 102)
+
+ -CHANGES
+   - Fixed a bug with the clan tab when a user removes themself from a clan (Thanks Chief]Kast[)
+   - Added an option where double clicking a listview item adds it the send textbox (Thanks Joe)
+   - Changed CRS to BNLS to illiminate confusion among users
+   - Added /commands to the command database (Thanks Rob)
+   - Added code to unload forms when disconnected from bnet
+   - Added better response handling for a dozen or so packets
+   - Fixed a bug where double clicking a profile to load it wouldn't save autoload (Thanks Rob)
+   - Fixed a bug in DataArrival sub where a Resume call was issued without an error (Thanks Rob)
+   - Fixed botmail command to enable/disable botmail
+   - Cleaned up some internal things that have been on the to-do
+   - Removed internal iTunes commands and made them a plugin - also Winamp as well (Thanks Rob)
+   - Hid the status bar on the main form (Leaving it so a plugin can make use of it)
+   - Added alias command to plugin handler (Thanks Rob)
+
+
+Version 1.2 (Build: 100)
+
+ -CHANGES
+   - Fixed a race condition with plugin Finalize function (Thanks Rob)
+   - Fixed a bug which caused global commands from plugins not to work (Thanks Rob)
+   - Fixed a bug where the whisper window always saved as true (Thanks Goran)
+   - Fixed a bug that would initialize plugins before adding them to a collection which caused the IsPluginGlobal() function to be useless
+   - Fixed more bugs for the plugin manager...
+   - Handled a bug that causes an automation error which requires a plugin to be re-registered after its version changes
+   - Fixed a bug that wouldn't run idle timers for users when flooddetect is enabled
+   - Fixed the Exit option under the File menu to actually do something (Thanks Rob)
+
+
+Version 1.1 (Build: 96)
+
+ -CHANGES
+   - Added IsGlobalPlugin() function to the Plugin Handler
+   - Added Refresh button to plugin form to load any recent plugin files
+   - Fixed an indexing problem on the config form that would cause a runtime error (Thanks Joe)
+   - Fixed a bug that wouldn't delete or unload profiles from the manager if there was only 1 loaded into the bot (Thanks Joe)
+   - Added RestoreDefaultColors() sub to plugin handler
+   - Fixed a bug that wouldn't properly delete profiles from the collection
+   - Fixed a bug that would cause a runtime error when you tried to delete a profile with files open from that profile's folder (Thanks Joe)
+   - Fixed a bug when creating a profile with restricted Windows characters
+   - Fixed a bug that would always load profile 1
+
+
+Version 1.1 (Build: 95)
+
+ -CHANGES
+   - Fixed a bug in the about form, textbox wasn't locked (Thanks Darin)
+   - Fixed a bug in filters form, combo box wasn't locked (Thanks Darin)
+   - Fixed a major bug when deleting profiles (Thanks Goran)
+       - Fixed Profile Manager as a result
+       - Fixed Plugin Manager as a result
+   - Changed function names for plugins
+   - Added DataDeparture() to plugins (Thanks Rob)
+   - Fixed a bug that caused your username to become idle 20 minutes after whispering yourself (Thanks Rob)
+   - Fixed a bug in floodbanning (Thanks Goran)
+   - Added prioritization to plugins
+   - Revamped Plugin Manager and all plugin loading
+   - Force keep-alive added (Thanks Rob)
+   - Added an option to only load specified profiles at startup (rather than all) (Thanks Rob)
+   - Added an optional whisper window (Thanks Rob)
+   - Fixed a bug that didn't stop plugins when a profile is unloaded
+   - Added color variables to customize colors of chat events (Thanks Rob) - [Requires a plugin to edit]
+   - Added password character to password field in config
+   - Removed auth info from config (No longer used)
+   - Fixed a bug related to aliases and plugins (Internally changed the structuring, minor visible changes)
+
+
+Version 1.1 (Build: 90)
+
+ -CHANGES
+   - Fixed a bug in loading plugin from file (Thanks Chriso)
+   - Fixed a bug on the textbox on frmMain (Thanks Keith and Mark)
+   - Added ActiveProfile() to plugins (Thanks Rob)
+   - Fixed a bug in the cdkey manager (Thanks Rob)
+   - Tried to clarify plugin manager a bit more...
+   - Fixed a bug where loading a profile from the manager didn't add an icon (Thanks Rob)
+   - Fixed an index problem when unloading index 1 from the tabstrip
+   - Fixed a bug in op command
+
+
+Version 1.1 (Build: 87) - Beta Release
+
+ -CHANGES
+   - Now supports CR (Checkrevision) Server support (e.g. BNLS, JBLS, etc.)
+   - Fixed commands to properly work with plugins...
+   - Flag P added
+   - Flicker flood protection added
+   - Fixed a file loading bug (Thanks Rob)
+   - Fixed another file loading bug..... (Thanks Darin)
+   - Finished plugins form
+   - Added about form (Thanks for the graphics Dan)
+
+
+Version 1.1 (Build: 77)
+
+ -CHANGES
+   - Clan disband command added
+   - Text history added (Last 10 unique messages)
+   - Right-click channel list for 'Clan' tab added
+   - CDKey management added
+
+
+Version 1.1 (Build: 62)
+
+ -CHANGES
+   - Auto-rejoin option added
+   - Dop command added
+   - Setchieftain command added
+   - LastWhisper command added
+   - Clan command added
+   - Added switch d2 realm character without disconnect
+   - Various bug fixes
+   - Full text logging is now implemented
+   - Updated Diablo 2 Statstring
+
+
+Version 1.1 (Build: 59)
+
+ -CHANGES
+   - User profile form is now fully functional (Including Warcraft III profiles/stats)
+   - Warden bug is now fixed, and the bot correctly responds to 0x5E
+   - Pingban command added
+   - Configuration now updates bot variables. Thanks Darin for catching this.
+   - Bot now automatically sets focus to the text send box when clicking through different profile tabs
+   - Auto-reconnect added - 60000ms timer
+   - Profile Manager form completed and functional
+
+
+Version 1.1 (Build: 57) - Second pre-beta release
+
+ -CHANGES
+   - Now supports multi-profile loading
+   - Tray icon/tray option added
+   - Bot filtering has been added
+   - Flood detection methods improved/changed
+   - Added channel idle (Users forecolor now turns gray after 20 minutes of idle time, tooltips display idle time after 20 minutes)
+   - Many bug fixes...can't even remember them
+   - Database form added
+   - Filter form added
+   - Auto-download lockdown mpq files and extraction has been permanently disabled
+   - Many bug fixes
+   - Temporarily disabled warden support due to a bug
+
+
+Version 1.1 (Build: 36) - First pre-beta release
+
+ -FEATURES
+   - Plugins (plugins can override the entire connection system, and the entire command system).
+        E.g. a single packet (or connection sequence) can be modified if Battle.net updates login methods
+	Also, completely new commands can be added via plugins.
+   - Aliases (aliasing allows you to create a 'shortcut' (or 'longcut') for commands
+   - Auto-download hashes - Unfortunately, only available in the private release
+   - Warden support [Private version will update if Warden changes]
+   - Auto-download lockdown mpq files and extraction with storm.dll
+   - Video buffer files are now handled internally
+   - Support for all Battle.net products currently available
+   - Automatic filtering for floodbots
+   - Custom Icons (some are modifications of WAR3's but some I created myself, MSPaint ftw)
+   - Multi-line tooltips (I think it deserves recognition here don't you?)
+   - Listview auto-resize (Thanks to niNe@USEast) - The main listview resizes the 'username' column depending on whether a scrollbar is present or not.
+   - Right-click channel/friends list options (clan right-click options coming soon)
+   - Full D2 realm support
+   - Account registration options (Change email/change pass/password recovery)
+   - Initial account registering
+   - Warcraft III clan support (invitations/clan creation)
+   - RichTextBox no-scroll feature (allows you to scroll in the channel text without the scroll bar resetting to the bottom)
+   - Bot mail
+   - iTunes support (Will consider adding other various players)
+   - Ping spoofing
+   - Botlocking on admin siting (disables all commands -unless you have flag M- when a bnet administrator is in the channel)
+   - Supports multi-exe loading
+   - Emulate W2BN client support (Uses old login for W2BN instead of 0x50/0x51)
+
+   - I'm sure there's more, I'm just forgetting to name them
